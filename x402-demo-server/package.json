@@ -1,0 +1,28 @@
+{
+  "name": "x402-demo-server",
+  "version": "1.0.0",
+  "description": "AuditAgent-X x402-AVM Security Intelligence Backend Daemon",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "agent": "tsx scripts/agent-client.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "@x402-avm/avm": "^2.6.1",
+    "@x402-avm/core": "^2.6.1",
+    "@x402-avm/fetch": "^2.6.1",
+    "@x402-avm/hono": "^2.6.1",
+    "algosdk": "^3.1.0",
+    "dotenv": "^16.4.7",
+    "hono": "^4.6.14"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
