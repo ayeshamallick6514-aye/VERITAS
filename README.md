@@ -132,7 +132,7 @@ payment-required: eyJ4NDAyVmVyc2lvbiI6Miwic2NoZW1lIjoiZXhhY3QiLCJuZXR3b3JrIjoiYW
     }
   ]
 }
-```
+```.
 
 ---
 
