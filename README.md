@@ -1,4 +1,4 @@
-# AuditAgent-X: Autonomous Security Auditing Powered by x402 on Algorand (AVM)
+# VERTIAS: Autonomous Security Auditing Powered by x402 on Algorand (AVM)
 
 [![Algorand Testnet](https://img.shields.io/badge/Algorand-Testnet-blue.svg)](https://testnet.algoexplorer.io)
 [![x402 Protocol](https://img.shields.io/badge/x402-Enabled-emerald.svg)](https://x402.org)
