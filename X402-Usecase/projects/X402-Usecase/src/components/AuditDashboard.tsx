@@ -460,12 +460,12 @@ export const AuditDashboard: React.FC = () => {
         <div>
           <div className="flex items-center gap-3">
             <div className="h-9 w-9 rounded-lg bg-black flex items-center justify-center font-black text-white text-xl shadow-sm">
-              X
+              V
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-2xl md:text-3xl font-black tracking-tight text-black">
-                  AuditAgent-X
+                  VERITAS
                 </h1>
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-zinc-100 text-black border border-zinc-300 font-mono uppercase">
                   x402-AVM
