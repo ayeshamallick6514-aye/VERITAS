@@ -1,11 +1,11 @@
-# VERTIAS: Autonomous Security Auditing Powered by x402 on Algorand (AVM)
+# VERITAS: Autonomous Security Auditing Powered by x402 on Algorand (AVM)
 
 [![Algorand Testnet](https://img.shields.io/badge/Algorand-Testnet-blue.svg)](https://testnet.algoexplorer.io)
 [![x402 Protocol](https://img.shields.io/badge/x402-Enabled-emerald.svg)](https://x402.org)
 [![Settlement](https://img.shields.io/badge/Settlement-3.3s%20Deterministic-success.svg)](#)
 [![Fee Abstraction](https://img.shields.io/badge/Gas-Abstracted%20(0%20ALGO)-purple.svg)](#)
 
-> **VERTIAS** is a production-grade Explainable AI (XAI) smart contract security auditor that embeds the **HTTP 402 Payment Required** protocol directly into static AST vulnerability analysis and counterfactual code repair on the Algorand Virtual Machine (AVM).
+> **VERITAS** is a production-grade Explainable AI (XAI) smart contract security auditor that embeds the **HTTP 402 Payment Required** protocol directly into static AST vulnerability analysis and counterfactual code repair on the Algorand Virtual Machine (AVM).
 
 ---
 
@@ -139,7 +139,7 @@ payment-required: eyJ4NDAyVmVyc2lvbiI6Miwic2NoZW1lIjoiZXhhY3QiLCJuZXR3b3JrIjoiYW
 ## 📂 Repository Structure
 
 ```
-VERTIAS/
+VERITAS/
 ├── x402-demo-server/                  # Backend Resource Server (Hono + TypeScript)
 │   ├── src/
 │   │   ├── endpoints.config.ts        # Route monetization & x402 pricing terms
