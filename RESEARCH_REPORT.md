@@ -166,30 +166,34 @@ To evolve from an MVP prototype into an enterprise-grade service, the system mus
 
 ### Core Architecture Stages
 
-1. **Deterministic Parser (`tree-sitter-solidity` / `tree-sitter-python`):**
-   - Parses code into a structured concrete syntax tree.
-   - Executes deterministic linting rules (rekey assertions, group sizes, unchecked return calls).
-   - Output: Exact file, line, column node coordinates with 0% hallucination.
+1. **Dual-Layer Deterministic Parser:**
+   - **High-Level Source AST (`tree-sitter-python` / `tree-sitter-solidity`):** Parses PyTeal, AlgoPy, and Solidity source to catch high-level expression faults, logic omissions, and control flow bugs.
+   - **Compiled TEAL Disassembly Inspector:** Compiles PyTeal down to raw TEAL opcodes when applicable to ensure compilation artifacts or optimizer passes have not bypassed group checks or stack constraints.
+   - Output: Exact file, line, and column coordinates with 0% hallucination.
 
-2. **Semantic / Attribution Layer:**
+2. **Upfront x402 Verification Gate (Spam/DoS Shield):**
+   - The Hono gateway strictly validates the `PAYMENT-SIGNATURE` transaction group against the Algorand testnet node/facilitator **before** accepting the job.
+   - Un-funded or forged requests are rejected immediately at the HTTP boundary with `402 Payment Required` or `400 Bad Request`, preventing Redis queue spam and shielding worker resources.
+
+3. **Semantic / Attribution Layer:**
    - Identifies code paths crossing boundaries between untrusted inputs and critical state mutations.
    - Highlights the exact AST subtrees responsible for policy violations.
 
-3. **LLM Remediation Synthesizer:**
+4. **LLM Remediation Synthesizer:**
    - Feeds the localized AST fault directly to a structured prompt.
    - Prompts for **minimal counterfactual code patch** rather than generic conversational advice.
    - Verifies syntactical validity of the patch before returning.
 
-4. **Result Caching (SHA-256 Content Deduplication):**
-   - Hashes contract code (`sha256(source)`).
-   - If identical code was audited within 24 hours, serves cached findings to prevent redundant compute/API expenses.
+5. **Token/AST-Normalized Caching:**
+   - Instead of fragile raw text hashing (which breaks upon trivial whitespace or comment edits), the engine normalizes tokens and strips comments before generating `sha256(canonical_ast)`.
+   - If structurally identical code was audited within 24 hours, serves cached findings instantly, dramatically increasing cache hit rates and saving LLM compute.
 
 ---
 
 ## 6. Engineering Implementation Roadmap
 
 ### Phase 1: Hardening Deterministic AVM Scanning (Weeks 1–2)
-- [ ] Implement `tree-sitter` grammar rules for PyTeal and TEAL syntax trees.
+- [ ] Implement `tree-sitter` grammar rules for PyTeal source trees alongside a raw TEAL opcode inspector.
 - [ ] Formalize 6 standard AVM vulnerability checks:
   1. `Txn.rekey_to() == Global.zero_address()`
   2. `Txn.close_remainder_to() == Global.zero_address()`
@@ -197,9 +201,10 @@ To evolve from an MVP prototype into an enterprise-grade service, the system mus
   4. Explicit `Global.group_size()` invariant enforcement.
   5. Inner transaction sequence ordering (Checks-Effects-Interactions).
   6. Subroutine recursion and stack depth limits.
-- [ ] Add content-hash caching in Redis to eliminate duplicate analysis runs.
+- [ ] Implement token/AST-normalized SHA-256 deduplication cache in Redis.
 
 ### Phase 2: Decoupled Job Queue & Rate Limiting (Weeks 3–4)
+- [ ] Implement upfront on-chain x402 signature verification before queue admission.
 - [ ] Replace synchronous HTTP handlers with BullMQ job queuing.
 - [ ] Implement Redis-backed sliding-window rate limiters per IP/API token.
 - [ ] Persist completed reports and settlement hashes into PostgreSQL.
